@@ -41,5 +41,5 @@ test('search google for cat photos', async ({ page }) => {
   await page.getByLabel('Search', { exact: true }).fill('cat photos');
   await page.getByRole('button', { name: "Google Search" }).first().click();
   await page.getByRole('link', { name: 'Images', exact: true }).click();
-  await expect(page).toHaveTitle(/cat photox/);
+  await expect(page).toHaveTitle(/cat photos/);
 });
