@@ -5,6 +5,7 @@ test('has title', async ({ page }) => {
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Playwright/);
+  console.log("done with title");
 });
 
 test('get started link', async ({ page }) => {
@@ -15,4 +16,20 @@ test('get started link', async ({ page }) => {
 
   // Expects page to have a heading with the name of Installation.
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+});
+
+test('release notes', async ({ page }) => {
+  await page.goto('https://playwright.dev/');
+
+  // Click the docs link.
+  await page.getByRole('link', { name: 'Docs' }).click();
+
+  // Expects page to have a heading with the name of Installation.
+  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+
+  // Click the release notes link.
+  await page.getByRole('link', { name: 'Release notes' }).click();
+
+  // Expects page to have a heading with the name of Installation.
+  await expect(page.getByRole('heading', { name: 'Release notes' })).toBeVisible();
 });
