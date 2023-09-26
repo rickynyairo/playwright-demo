@@ -33,3 +33,13 @@ test('release notes', async ({ page }) => {
   // Expects page to have a heading with the name of Installation.
   await expect(page.getByRole('heading', { name: 'Release notes' })).toBeVisible();
 });
+
+test('search google for cat photos', async ({ page }) => {
+  await page.goto('https://www.google.com/');
+  await page.getByRole('link', { name: 'English', exact: true }).click();
+  await page.getByLabel('Search', { exact: true }).click();
+  await page.getByLabel('Search', { exact: true }).fill('cat photos');
+  await page.getByRole('button', { name: "Google Search" }).first().click();
+  await page.getByRole('link', { name: 'Images', exact: true }).click();
+  await expect(page).toHaveTitle(/cat photox/);
+});
