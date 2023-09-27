@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { API_TOKEN } from './secrets';
 
 /**
  * Read environment variables from file.
@@ -28,6 +29,13 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    extraHTTPHeaders: {
+      // We set this header per GitHub guidelines.
+      'Accept': 'application/vnd.github.v3+json',
+      // Add authorization token to all requests.
+      // Assuming personal access token available in the environment.
+      'Authorization': `token ${API_TOKEN}`,
+    },
   },
 
   /* Configure projects for major browsers */
@@ -36,7 +44,6 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
@@ -74,4 +81,5 @@ export default defineConfig({
   //   url: 'http://127.0.0.1:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
+  
 });
