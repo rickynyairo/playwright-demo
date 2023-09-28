@@ -6,7 +6,6 @@ test('has title', async ({ page }) => {
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Playwright/);
-  console.log("done with title");
 });
 
 test('get started link', async ({ page }) => {
@@ -20,10 +19,11 @@ test('get started link', async ({ page }) => {
 });
 
 test('release notes', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+  const playwrightDevPage = new PlaywrightDevPage(page);
+  await playwrightDevPage.goto();
 
   // Click the docs link.
-  await page.getByRole('link', { name: 'Docs' }).click();
+  await playwrightDevPage.docs.click();
 
   // Expects page to have a heading with the name of Installation.
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
@@ -35,14 +35,26 @@ test('release notes', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Release notes' })).toBeVisible();
 });
 
-test('search google for cat photos', async ({ page }) => {
+
+test('search google for blue ferrari photos', async ({ page }) => {
+  // open google
   await page.goto('https://www.google.com/');
-  await page.getByRole('link', { name: 'English', exact: true }).click();
-  await page.getByLabel('Search', { exact: true }).click();
-  await page.getByLabel('Search', { exact: true }).fill('cat photos');
-  await page.getByRole('button', { name: "Google Search" }).first().click();
-  await page.getByRole('link', { name: 'Images', exact: true }).click();
-  await expect(page).toHaveTitle(/cat photos/);
+
+  // change language to english
+  const languageButton = page.getByRole('link', { name: 'English', exact: true });
+  await languageButton.click();
+
+  // search for blue ferrari photos
+  await page.getByLabel('Search', { exact: true }).fill('blue ferrari photos');
+  const searchButton = page.getByRole('button', { name: "Google Search" }).first();
+  await searchButton.click();
+
+  // click images
+  const imagesButton = page.getByRole('link', { name: 'Images', exact: true });
+  await imagesButton.click();
+
+  // verify title
+  await expect(page).toHaveTitle(/blue ferrari photos/);
 });
 
 test('getting started should contain table of contents', async ({ page }) => {

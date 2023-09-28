@@ -6,6 +6,7 @@ export class PlaywrightDevPage {
   readonly gettingStartedHeader: Locator;
   readonly pomLink: Locator;
   readonly tocList: Locator;
+  readonly docs: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -17,6 +18,7 @@ export class PlaywrightDevPage {
       hasText: 'Page Object Model',
     });
     this.tocList = page.locator('article div.markdown ul > li > a');
+    this.docs = page.locator('a', { hasText: 'Docs' });
   }
 
   async goto() {

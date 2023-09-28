@@ -26,6 +26,7 @@ test('should create a feature request', async ({ request }) => {
       body: 'Feature description',
     }
   });
+
   expect(newIssue.ok()).toBeTruthy();
 
   const issues = await request.get(`https://api.github.com/repos/${USER}/${REPO}/issues`);
@@ -35,3 +36,19 @@ test('should create a feature request', async ({ request }) => {
     body: 'Feature description'
   }));
 });
+
+test('can create and delete repository', async ({ request }) => {
+  // Create a new repository.
+  const newRepo = await request.post(`https://api.github.com/user/repos`, {
+    data: {
+      name: 'test-repo-77',
+      description: 'test repo',
+    }
+  });
+  expect(newRepo.ok()).toBeTruthy();
+
+  // Delete the repository.
+  const deleteRepo = await request.delete(`https://api.github.com/repos/${USER}/test-repo-77`);
+  expect(deleteRepo.ok()).toBeTruthy();
+});
+
